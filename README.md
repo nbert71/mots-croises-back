@@ -26,6 +26,8 @@ Mot de passe: `password`
 
 ## Running the app
 
+N'oubliez pas d'installer la CLI de NestJS pour pouvoir lancer le projet `npm install -g @nestjs/cli`.
+
 ```bash
 # development
 $ npm run start

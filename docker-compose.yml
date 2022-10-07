@@ -10,7 +10,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "6033:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
   phpmyadmin:
