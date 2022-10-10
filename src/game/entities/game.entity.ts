@@ -1,11 +1,12 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class Game extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    grid: Array<Array<CharacterData>>;
+    grid: string;
 
     @Column()
     profit: number;
@@ -14,8 +15,8 @@ export class Game extends BaseEntity {
     isFinished: boolean;
 
     @Column()
-    words: Array<string>;
+    words: string;
 
     @Column()
-    displayedLetters: Array<CharacterData>;
+    displayedLetters: string;
 }
