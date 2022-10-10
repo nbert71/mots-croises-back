@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
 
 
 @Module({
@@ -15,9 +17,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
