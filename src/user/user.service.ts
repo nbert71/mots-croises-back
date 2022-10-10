@@ -12,17 +12,22 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
   
-  findOne(id: number) {
+  findOne(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }
   
-  // create(createUserDto: CreateUserDto) {
-  //   return 'This action adds a new user';
-  // }
+  async create(user: CreateUserDto): Promise<User> {
+    const userEntity: User = User.create();
+    userEntity.firstName = user.firstName;
+    userEntity.lastName = user.lastName;
+    userEntity.password = user.password;
+    await User.save(userEntity);
+    return userEntity
+  }
   
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
