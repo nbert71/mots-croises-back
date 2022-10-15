@@ -12,16 +12,12 @@ export class GameService {
     private gameRepository: Repository<Game>,
   ) {}
 
-  // create(createGameDto: CreateGameDto) {
-  //   return 'This action adds a new game';
-  // }
-
-  findAll() {
-    return `This action returns all game`;
+  findAll(): Promise<Game[]> {
+    return this.gameRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  findOne(id: number): Promise<Game> {
+    return this.gameRepository.findOneBy({ id });
   }
 
   // update(id: number, updateGameDto: UpdateGameDto) {

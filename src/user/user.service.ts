@@ -25,6 +25,7 @@ export class UserService {
     userEntity.firstName = user.firstName;
     userEntity.lastName = user.lastName;
     userEntity.password = user.password;
+    userEntity.username = user.username;
     await User.save(userEntity);
     return userEntity
   }

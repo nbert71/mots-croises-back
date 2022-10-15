@@ -1,22 +1,30 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Game extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    grid: string;
+    // liste de strings représentants les lignes de la grille "---EAU-B"
+    @Column('simple-array')
+    grid: string[];
 
+    // gain effecif de la grille avec les lettres en question
     @Column()
     profit: number;
 
     @Column()
     isFinished: boolean;
 
-    @Column()
-    words: string;
+    // liste des mots contenus dans la grille
+    @Column('simple-array')
+    words: string[];
 
-    @Column()
-    displayedLetters: string;
+    // les 14 lettres (cliquables) de notre jeu
+    @Column('simple-array')
+    displayedLetters: string[];
+
+    @ManyToOne(() => User, (user) => user.games)
+    player: User;
 }
