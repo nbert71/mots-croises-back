@@ -12,7 +12,7 @@ export class User extends BaseEntity {
     @Column()
     lastName: string;
 
-    @Column()
+    @Column({unique: true})
     username: string;
 
     @Column()

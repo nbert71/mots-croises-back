@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { GameModule } from './game/game.module';
 import { Game } from './game/entities/game.entity';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -24,7 +25,8 @@ import { Game } from './game/entities/game.entity';
       synchronize: true,
     }),
     UserModule,
-    GameModule
+    GameModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
