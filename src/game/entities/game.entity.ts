@@ -1,10 +1,13 @@
 import { User } from "src/user/entities/user.entity";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity()
 export class Game extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @CreateDateColumn()
+    createdAt: Timestamp;
 
     // liste de strings représentants les lignes de la grille "---EAU-B"
     @Column('simple-array')
