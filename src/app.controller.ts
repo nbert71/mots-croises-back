@@ -16,6 +16,10 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getTest(@Request() req){
-    return req.user;
+    // Ici on peut récupérer le user directement dans la req en fait du moment qu'on a le jwt en bearer token header, et
+    //passport le met directement dans req.user
+    return {
+      'text': `Hello from ${req.user.username}!`
+    };
   }
 }
