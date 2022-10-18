@@ -13,14 +13,20 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    //TODO:  penser à enlever les password dans le return
-    return this.userRepository.find();
+  async findAll(): Promise<any[]> {
+    let data = await this.userRepository.find();
+    let users=[]
+    data.forEach(element => {
+      let {password, ...user} = element
+      users.push(user)
+    });
+    return users;
   }
   
-  findOne(id: number): Promise<User> {
-    // TODO:  penser à enlever les password dans le return
-    return this.userRepository.findOneBy({ id });
+  async findOne(id: number): Promise<any> {
+    let data = await this.userRepository.findOneBy({ id });
+    let { password, ...user } = data;
+    return user;
   }
 
   findOneByUsername(username: string): Promise<User> {
