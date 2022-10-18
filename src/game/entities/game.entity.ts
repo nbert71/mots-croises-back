@@ -17,7 +17,7 @@ export class Game extends BaseEntity {
     @Column()
     profit: number;
 
-    @Column()
+    @Column({ default : false})
     isFinished: boolean;
 
     // liste des mots contenus dans la grille

@@ -1,22 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { Game } from './entities/game.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) {}
+  constructor(
+      private readonly gameService: GameService
+    ) {}
 
-  @Get()
-  findAll() {
-    return this.gameService.findAll();
+  @Get('new')
+  @UseGuards(JwtAuthGuard)
+  newGame(@Request() req){
+    return this.gameService.create(req.user)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
-  }
+  // @Get()
+  // findAll() {
+  //   return this.gameService.findAll();
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.gameService.findOne(+id);
+  // }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
