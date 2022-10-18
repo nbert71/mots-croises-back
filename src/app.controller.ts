@@ -2,10 +2,14 @@ import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
+import { UserService } from './user/user.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -21,5 +25,13 @@ export class AppController {
     return {
       'text': `Hello from ${req.user.username}!`
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('my')
+  getMyData(@Request() req){
+    // get games data + user money
+    let userData = this.userService.findOne(req.user.id);
+    return userData;
   }
 }

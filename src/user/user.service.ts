@@ -14,14 +14,17 @@ export class UserService {
   ) {}
 
   findAll(): Promise<User[]> {
+    //TODO:  penser à enlever les password dans le return
     return this.userRepository.find();
   }
   
   findOne(id: number): Promise<User> {
+    // TODO:  penser à enlever les password dans le return
     return this.userRepository.findOneBy({ id });
   }
 
   findOneByUsername(username: string): Promise<User> {
+    // TODO:  penser à enlever les password dans le return
     return this.userRepository.findOneBy({username});
   }
   
