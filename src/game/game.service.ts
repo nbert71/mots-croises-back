@@ -30,6 +30,14 @@ export class GameService {
     return result
   }
 
+  async findAllByUser(user){
+    return this.gameRepository.find({
+      where: {
+        player: user
+      }
+    })
+  }
+
   // findAll(): Promise<Game[]> {
   //   return this.gameRepository.find();
   // }

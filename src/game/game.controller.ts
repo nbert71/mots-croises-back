@@ -13,8 +13,14 @@ export class GameController {
 
   @Get('new')
   @UseGuards(JwtAuthGuard)
-  newGame(@Request() req){
-    return this.gameService.create(req.user)
+  async newGame(@Request() req){
+    return await this.gameService.create(req.user)
+  }
+
+  @Get('/history')
+  @UseGuards(JwtAuthGuard)
+  async lastFiveGames(@Request() req){
+    return await this.gameService.findAllByUser(req.user)
   }
 
   // @Get()
