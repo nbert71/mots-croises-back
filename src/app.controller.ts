@@ -13,8 +13,15 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
+  async login(@Request() req){
     return this.authService.login(req.user);
+  }
+
+  @Post('register')
+  async register(@Request() req){
+    let resultUser = await this.userService.create(req.body);
+    console.log(this.authService.login(resultUser));
+    return this.authService.login(resultUser);
   }
 
   @UseGuards(JwtAuthGuard)
