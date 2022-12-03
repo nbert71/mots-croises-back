@@ -17,7 +17,7 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
-  @Post('register')
+  @Post('register') // register and login at the same time so you don't have to login just after registering
   async register(@Request() req){
     let resultUser = await this.userService.create(req.body);
     console.log(this.authService.login(resultUser));
