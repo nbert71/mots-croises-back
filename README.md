@@ -12,7 +12,22 @@ $ npm install
 docker compose up -d
 ```
 
-Pour consulter PHPMyAdmin, aller sur `localhost:8081`.
+Pour consulter PGAdmin, aller sur `localhost:5050`.
+
+Connexion : 
+root@email.com
+admin
+
+-> Add new server
+nom comme on veut
+connexion : hostname : db
+username : root
+mdp : admin
+
+Pour voir les données 
+
+Schema/Tables
+
 
 
 Serveur : `db`
@@ -38,3 +53,5 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+
