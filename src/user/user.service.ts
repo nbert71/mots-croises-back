@@ -47,6 +47,17 @@ export class UserService {
     const { password, ...result } = userEntity;
     return result
   }
+
+  async updateSolde(id: number, oldSolde: number, refill: number): Promise<any> {
+    let user: User = await this.userRepository.findOneBy({id})
+    if(user.money == oldSolde) {
+      user.money += refill;
+      user.save();
+      return user.money
+    } else {
+      return null
+    }
+  }
   
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
