@@ -17,6 +17,12 @@ export class GameController {
     return await this.gameService.create(req.user)
   }
 
+  @Get('end')
+  @UseGuards(JwtAuthGuard)
+  async endGame(@Request() req){
+    return await this.gameService.endGame(req.user)
+  }
+
   @Get('/history')
   @UseGuards(JwtAuthGuard)
   async lastFiveGames(@Request() req){

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
@@ -12,22 +12,51 @@ export class GameService {
   constructor(
     @InjectRepository(Game)
     private gameRepository: Repository<Game>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     private readonly generateGame: GenerateGame
   ) {}
 
   async create(user){
-    let newGame = await this.generateGame.main()
-    const gameEntity : Game = Game.create();
-    gameEntity.grid = newGame.grid;
-    gameEntity.profit = newGame.profit;
-    gameEntity.words = newGame.words,
-    gameEntity.displayedLetters = newGame.displayedLetters,
-    gameEntity.player = user.id
+    const lastGame = await this.gameRepository.findOne({
+      where:{
+        player: user,
+        isFinished:false
+      }
+    })
 
-    await Game.save(gameEntity)
-    const {createdAt,profit,isFinished,words,player, ...result} = gameEntity
+    const userEntity = await this.userRepository.findOne({
+      where:{
+        id:user.id
+      }
+    })
 
-    return result
+
+    if(lastGame){
+      const {createdAt,profit,isFinished,words,player, ...result} = lastGame;
+      return result
+    }else if(userEntity.money<3){
+        return null
+    }else{
+      console.log("Create new game")
+      userEntity.money-=3;
+      userEntity.save();
+
+      //a changer
+
+      let newGame = await this.generateGame.main()
+      const gameEntity : Game = Game.create();
+      gameEntity.grid = newGame.grid;
+      gameEntity.profit = newGame.profit;
+      gameEntity.words = newGame.words,
+      gameEntity.displayedLetters = newGame.displayedLetters,
+      gameEntity.player = user.id
+
+      await Game.save(gameEntity)
+      
+      const {createdAt,profit,isFinished,words,player, ...result} = gameEntity;
+      return result
+    }
   }
 
   async findAllByUser(user){
@@ -36,6 +65,29 @@ export class GameService {
         player: user
       }
     })
+  }
+
+  async endGame(user){
+    const lastGame = await this.gameRepository.findOne({
+      where:{
+        player: user,
+        isFinished:false
+      }
+    })
+
+    const userEntity = await this.userRepository.findOne({
+      where:{
+        id:user.id
+      }
+    })
+
+    if(lastGame){
+      lastGame.isFinished=true;
+      lastGame.save()
+      userEntity.money+=lastGame.profit;
+      userEntity.save()
+    }
+    return userEntity.money
   }
 
   // findAll(): Promise<Game[]> {
