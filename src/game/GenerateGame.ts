@@ -4,20 +4,9 @@ import { Game } from "./entities/game.entity";
 
 @Injectable()
 export class GenerateGame {
-    generate_grid(){
-        let grid = [
-            "--CHIC--NEZ",
-            "---O-APRE--",
-            "--CUIR--T-E",
-            "M--X-ARC--M",
-            "A-M--T-A--E",
-            "T-E--SAPHIR",
-            "IODES--I--A",
-            "N-I--U-TENU",
-            "E-AGENDA--D",
-            "E----I-L--E",
-            "SOUDE------",
-        ]
+    async generate_grid(){
+        let response = await fetch(process.env.API_GENERATOR);
+        let grid = await response.json();
         let n_x=grid.length;
         let n_y=grid[0].length;
         let letters=Array(n_x);
@@ -243,23 +232,23 @@ export class GenerateGame {
         return number;
     }
 
-    calcProfit(finded_words){
+    calcProfit(found_word){
         let profit = 0
-        if(finded_words<=1){
+        if(found_word<=1){
             profit=0
-        }else if(finded_words===2){
+        }else if(found_word===2){
             profit=3
-        }else if(finded_words===3){
+        }else if(found_word===3){
             profit=6
-        }else if(finded_words===4){
+        }else if(found_word===4){
             profit=15
-        }else if(finded_words===5){
+        }else if(found_word===5){
             profit=30
-        }else if(finded_words===6){
+        }else if(found_word===6){
             profit=100
-        }else if(finded_words===7){
+        }else if(found_word===7){
             profit=5000
-        }else if(finded_words===8){
+        }else if(found_word===8){
             profit=10000
         }else{
             profit=40000
@@ -267,15 +256,15 @@ export class GenerateGame {
         return profit
     }
 
-    main(){
-        let {grid,letters,n_x,n_y} = this.generate_grid()
+    async main(){
+        let {grid,letters,n_x,n_y} = await this.generate_grid()
         let myLetters = this.generate_my_letters(letters,n_x,n_y)
         let {words,simpleWords} = this.find_words(letters,n_x,n_y)
-        let finded_words=0;
+        let found_word=0;
         myLetters.forEach(lettre => {
-            finded_words = this.discover_letter(lettre,words)
+            found_word = this.discover_letter(lettre,words)
         });
-        let profit = this.calcProfit(finded_words)
+        let profit = this.calcProfit(found_word)
 
         return {
             grid: grid,

@@ -16,7 +16,7 @@ export class GameService {
   ) {}
 
   async create(user){
-    let newGame = this.generateGame.main()
+    let newGame = await this.generateGame.main()
     const gameEntity : Game = Game.create();
     gameEntity.grid = newGame.grid;
     gameEntity.profit = newGame.profit;
