@@ -34,15 +34,12 @@ export class GameService {
 
     if(lastGame){
       const {createdAt,profit,isFinished,words,player, ...result} = lastGame;
-      return result
+      return {...result, money:userEntity.money}
     }else if(userEntity.money<3){
         return null
     }else{
-      console.log("Create new game")
       userEntity.money-=3;
       userEntity.save();
-
-      //a changer
 
       let newGame = await this.generateGame.main()
       const gameEntity : Game = Game.create();
@@ -55,7 +52,7 @@ export class GameService {
       await Game.save(gameEntity)
       
       const {createdAt,profit,isFinished,words,player, ...result} = gameEntity;
-      return result
+      return {...result, money:userEntity.money}
     }
   }
 
