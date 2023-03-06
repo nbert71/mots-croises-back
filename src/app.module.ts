@@ -12,24 +12,24 @@ import { AuthModule } from './auth/auth.module';
 
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: parseInt(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      entities: [User, Game],
-      synchronize: true,
-    }),
-    UserModule,
-    GameModule,
-    AuthModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        ConfigModule.forRoot(),
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: 'localhost',
+            port: parseInt(process.env.POSTGRES_PORT),
+            username: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+            database: process.env.POSTGRES_DB,
+            entities: [User, Game],
+            synchronize: true,
+        }),
+        UserModule,
+        GameModule,
+        AuthModule
+    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
 
-export class AppModule {}
+export class AppModule { }

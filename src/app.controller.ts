@@ -6,39 +6,37 @@ import { UserService } from './user/user.service';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService
-  ) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly userService: UserService,
+    ) { }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req){
-    return this.authService.login(req.user);
-  }
+    @UseGuards(LocalAuthGuard)
+    @Post('login')
+    async login(@Request() req) {
+        return this.authService.login(req.user);
+    }
 
-  @Post('register') // register and login at the same time so you don't have to login just after registering
-  async register(@Request() req){
-    let resultUser = await this.userService.create(req.body);
-    console.log(this.authService.login(resultUser));
-    return this.authService.login(resultUser);
-  }
+    @Post('register') // register and login at the same time so you don't have to login just after registering
+    async register(@Request() req) {
+        let resultUser = await this.userService.create(req.body);
+        return this.authService.login(resultUser);
+    }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  getTest(@Request() req){
-    // Ici on peut récupérer le user directement dans la req en fait du moment qu'on a le jwt en bearer token header, et
-    //passport le met directement dans req.user
-    return {
-      'text': `Hello from ${req.user.username}!`
-    };
-  }
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    getTest(@Request() req) {
+        // Ici on peut récupérer le user directement dans la req en fait du moment qu'on a le jwt en bearer token header, et
+        //passport le met directement dans req.user
+        return {
+            text: `Hello from ${req.user.username}!`,
+        };
+    }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('my')
-  getMyData(@Request() req){
-    // get games data + user money
-    let userData = this.userService.findOne(req.user.id);
-    return userData;
-  }
+    @UseGuards(JwtAuthGuard)
+    @Get('my')
+    getMyData(@Request() req) {
+        // get games data + user money
+        return this.userService.findOne(req.user.id);
+    }
 }

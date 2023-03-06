@@ -7,45 +7,25 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('game')
 export class GameController {
-  constructor(
-      private readonly gameService: GameService
-    ) {}
+    constructor(
+        private readonly gameService: GameService
+    ) { }
 
-  @Get('new')
-  @UseGuards(JwtAuthGuard)
-  async newGame(@Request() req){
-    return await this.gameService.create(req.user)
-  }
+    @Get('new')
+    @UseGuards(JwtAuthGuard)
+    async newGame(@Request() req) {
+        return await this.gameService.create(req.user)
+    }
 
-  @Get('end')
-  @UseGuards(JwtAuthGuard)
-  async endGame(@Request() req){
-    return await this.gameService.endGame(req.user)
-  }
+    @Get('end')
+    @UseGuards(JwtAuthGuard)
+    async endGame(@Request() req) {
+        return await this.gameService.endGame(req.user)
+    }
 
-  @Get('/history')
-  @UseGuards(JwtAuthGuard)
-  async lastFiveGames(@Request() req){
-    return await this.gameService.findAllByUser(req.user)
-  }
-
-  // @Get()
-  // findAll() {
-  //   return this.gameService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.gameService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
-  //   return this.gameService.update(+id, updateGameDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.gameService.remove(+id);
-  // }
+    @Get('/history')
+    @UseGuards(JwtAuthGuard)
+    async lastFiveGames(@Request() req) {
+        return await this.gameService.findAllByUser(req.user)
+    }
 }
