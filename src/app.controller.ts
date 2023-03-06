@@ -11,6 +11,11 @@ export class AppController {
         private readonly userService: UserService,
     ) { }
 
+    @Get('/hello')
+    getHello() {
+        return 'Hello World!';
+    }
+
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Request() req) {
@@ -19,7 +24,7 @@ export class AppController {
 
     @Post('register') // register and login at the same time so you don't have to login just after registering
     async register(@Request() req) {
-        let resultUser = await this.userService.create(req.body);
+        const resultUser = await this.userService.create(req.body);
         return this.authService.login(resultUser);
     }
 

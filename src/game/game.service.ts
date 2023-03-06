@@ -41,7 +41,7 @@ export class GameService {
             userEntity.money -= 3;
             userEntity.save();
 
-            let newGame = await this.generateGame.main();
+            const newGame = await this.generateGame.main();
             const gameEntity: Game = Game.create();
             gameEntity.grid = newGame.grid;
             gameEntity.profit = newGame.profit;

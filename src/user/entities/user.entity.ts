@@ -1,5 +1,11 @@
-import { Game } from "src/game/entities/game.entity";
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from "typeorm";
+import { Game } from '../../game/entities/game.entity';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    BaseEntity,
+    OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -12,15 +18,15 @@ export class User extends BaseEntity {
     @Column()
     lastName: string;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     username: string;
 
     @Column()
     password: string;
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     money: number;
 
-    @OneToMany(() => Game, game => game.player)
+    @OneToMany(() => Game, (game) => game.player)
     games: Game[];
 }

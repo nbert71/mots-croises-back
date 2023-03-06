@@ -1,5 +1,13 @@
-import { User } from "src/user/entities/user.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { User } from '../../user/entities/user.entity';
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    Timestamp,
+} from 'typeorm';
 
 @Entity()
 export class Game extends BaseEntity {
@@ -17,7 +25,7 @@ export class Game extends BaseEntity {
     @Column()
     profit: number;
 
-    @Column({ default : false})
+    @Column({ default: false })
     isFinished: boolean;
 
     // liste des mots contenus dans la grille

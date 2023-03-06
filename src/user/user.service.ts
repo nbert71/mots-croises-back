@@ -14,8 +14,8 @@ export class UserService {
     ) { }
 
     async findOne(id: number): Promise<any> {
-        let data = await this.userRepository.findOneBy({ id });
-        let { password, ...user } = data;
+        const data = await this.userRepository.findOneBy({ id });
+        const { password, ...user } = data;
         return user;
     }
 
@@ -43,7 +43,7 @@ export class UserService {
         oldSolde: number,
         refill: number,
     ): Promise<any> {
-        let user: User = await this.userRepository.findOneBy({ id });
+        const user: User = await this.userRepository.findOneBy({ id });
         if (user.money == oldSolde) {
             user.money += refill;
             user.save();
