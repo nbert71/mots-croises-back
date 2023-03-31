@@ -8,6 +8,7 @@ import {
     Delete,
     Request,
     UseGuards,
+    Logger,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,6 +20,7 @@ import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 export class UserController {
     constructor(private readonly userService: UserService) { }
+    private readonly logger = new Logger(UserController.name)
 
     @Post('refill')
     async updateSolde(@Request() req) {
@@ -29,6 +31,7 @@ export class UserController {
             oldSolde,
             refill,
         );
+        this.logger.log(`${req.user.username} update money from ${oldSolde}€ to ${newSolde}€`)
         return newSolde;
     }
 }
