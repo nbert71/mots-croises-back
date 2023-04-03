@@ -1,31 +1,6 @@
 version: '3.8'
 
 services:
-  # db:
-  #   image: mysql:latest
-  #   container_name: mots_croises_db
-  #   restart: always
-  #   environment:
-  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #     MYSQL_USER: ${MYSQL_USER}
-  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #   ports:
-  #     - "${MYSQL_PORT}:3306"
-  #   volumes:
-  #     - db_data:/var/lib/mysql
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: mots_croises_phpmyadmin
-  #   links:
-  #     - db
-  #   environment:
-  #     PMA_HOST: db
-  #     PMA_PORT: 3306
-  #     PMA_ARBITRARY: 1
-  #   restart: always
-  #   ports:
-  #     - ${MYADMIN_PORT}:80
   db:
     image: postgres:13-alpine
     container_name: mots_croises_db
@@ -47,6 +22,11 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+  generateur:
+    image: instraben13/mots-croises-generateur
+    container_name: mots_croises_generateur
+    ports:
+      - "10206:10206"
 
 volumes:
   db_data:

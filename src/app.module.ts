@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -9,6 +9,7 @@ import { User } from './user/entities/user.entity';
 import { GameModule } from './game/game.module';
 import { Game } from './game/entities/game.entity';
 import { AuthModule } from './auth/auth.module';
+import { LoggerMiddleware } from './logger/logger.middleware';
 
 @Module({
     imports: [
@@ -30,4 +31,8 @@ import { AuthModule } from './auth/auth.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule { }
+export class AppModule implements NestModule{
+    configure(consumer: MiddlewareConsumer){
+        consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
+}
