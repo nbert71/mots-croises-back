@@ -8,19 +8,19 @@ import {
     Delete,
     Request,
     UseGuards,
-    Logger,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
+import { BetterLogger } from 'src/logger/logger';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    private readonly logger = new Logger(UserController.name)
+    private readonly logger = new BetterLogger(UserController.name)
 
     @Post('refill')
     async updateSolde(@Request() req) {

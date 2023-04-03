@@ -9,7 +9,7 @@ import { User } from './user/entities/user.entity';
 import { GameModule } from './game/game.module';
 import { Game } from './game/entities/game.entity';
 import { AuthModule } from './auth/auth.module';
-import { LoggerMiddleware } from './middleware/logger.middleware';
+import { LoggerMiddleware } from './logger/logger.middleware';
 
 @Module({
     imports: [

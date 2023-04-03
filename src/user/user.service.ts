@@ -1,10 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { BetterLogger } from 'src/logger/logger';
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,7 @@ export class UserService {
         private userRepository: Repository<User>,
     ) { }
 
-    private readonly logger = new Logger(UserService.name);
+    private readonly logger = new BetterLogger(UserService.name);
 
     async findOne(id: number): Promise<any> {
         const data = await this.userRepository.findOneBy({ id });

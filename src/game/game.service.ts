@@ -6,6 +6,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { Game } from './entities/game.entity';
 import { GenerateGame } from './GenerateGame';
+import { BetterLogger } from 'src/logger/logger';
 
 @Injectable()
 export class GameService {
@@ -16,6 +17,8 @@ export class GameService {
         private userRepository: Repository<User>,
         private readonly generateGame: GenerateGame,
     ) { }
+
+    private readonly logger = new BetterLogger(GameService.name)
 
     async create(user) {
         const lastGame = await this.gameRepository.findOne({
@@ -34,8 +37,10 @@ export class GameService {
         if (lastGame) {
             const { createdAt, profit, isFinished, words, player, ...result } =
                 lastGame;
+            this.logger.log(`[${user.username}] reuse non finished game`)
             return { ...result, money: userEntity.money };
         } else if (userEntity.money < 3) {
+            this.logger.error(`[${user.username}] Not enough money`)
             return null;
         } else {
             userEntity.money -= 3;
@@ -53,6 +58,7 @@ export class GameService {
 
             const { createdAt, profit, isFinished, words, player, ...result } =
                 gameEntity;
+            this.logger.log(`[${user.username}] Create new game`)
             return { ...result, money: userEntity.money };
         }
     }
@@ -84,6 +90,9 @@ export class GameService {
             lastGame.save();
             userEntity.money += lastGame.profit;
             userEntity.save();
+            this.logger.log(`[${user.username}] finish game`)
+        } else {
+            this.logger.error(`[${user.username}] try to finish non existing game`)
         }
         return userEntity.money;
     }
